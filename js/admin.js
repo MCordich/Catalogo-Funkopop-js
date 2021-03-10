@@ -28,7 +28,7 @@ window.agregarFunkopop = function(event) {
     //agregar el nmuevo objeto en el arreglo de funkopop
     listaFunkopop.push(nuevoFunkopop);
     console.log(listaFunkopop);
-    localStorage.setItem('listaFunkoKey', JSON.stringify(listaFunkopop));
+    localStorage.setItem("listaFunkoKey", JSON.stringify(listaFunkopop));
     limpiarFormulario();
 };
 
@@ -36,8 +36,10 @@ function limpiarFormulario() {
     let formulario = document.getElementById('formModal');
     formulario.reset();
     Swal.fire(
-        'nuevo producto', 'El Funkopop se agrego correctamente', "success"
-    )
+            'nuevo producto', 'El Funkopop se agrego correctamente', "success"
+        )
+        //llamar a leerDatos
+    leerDatos();
     modalFunko.hide();
 }
 
@@ -46,9 +48,38 @@ function leerDatos() {
     if (localStorage.length > 0) {
         let _listaFunkopop = JSON.parse(localStorage.getItem('listaFunkoKey'));
         console.log(_listaFunkopop);
+        //si el arreglo listafunkopop esta vacio le cargo los datos del localstorage
         if (listaFunkopop.length === 0) {
             listaFunkopop = _listaFunkopop;
         }
+        //dibujar los datos en la tabla
+        dibujarTabla(_listaFunkopop);
+    }
+}
 
+function dibujarTabla(_listaFunkopop) {
+    //traer el elemento padre de las filas
+    let tablaFunko = document.getElementById('tablaFunko');
+    //variable para trabajar codigo html
+    let filaFunko = '';
+    //limpiar los datos del tbody
+    tablaFunko.innerHTML = '';
+    //for (let i = 0; i < _listaFunkopop.lenght; i++){}
+    for (let i in _listaFunkopop) {
+        // crear la fila 
+        filaFunko = `<tr>
+        <th scope="row">${_listaFunkopop[i].codigo}</th>
+        <td>${_listaFunkopop[i].nombre}</td>
+        <td>${_listaFunkopop[i].numSerie}</td>
+        <td>${_listaFunkopop[i].categoria}</td>
+        <td>${_listaFunkopop[i].descripcion}C</td>
+        <td>${_listaFunkopop[i].imagen}</td>
+        <td>
+            <button class="btn btn-warning">Editar</button>
+            <button class="btn btn-danger">Borrar</button>
+        </td>
+    </tr>`;
+        //agregar fila a su elemento padre
+        tablaFunko.innerHTML += filaFunko;
     }
 }
