@@ -10,6 +10,7 @@ btnagregar.addEventListener('click', function() {
     modalFunko.show();
 })
 
+leerDatos()
 
 window.agregarFunkopop = function(event) {
     //el objetivo de esta funcion es agregar un funkopop nuevo en el localstorage
@@ -76,10 +77,42 @@ function dibujarTabla(_listaFunkopop) {
         <td>${_listaFunkopop[i].imagen}</td>
         <td>
             <button class="btn btn-warning">Editar</button>
-            <button class="btn btn-danger">Borrar</button>
+            <button class="btn btn-danger" onclick="eliminarFunkoPop(this)" id='${_listaFunkopop[i].codigo}'>Borrar</button>
         </td>
     </tr>`;
         //agregar fila a su elemento padre
         tablaFunko.innerHTML += filaFunko;
     }
+}
+
+git config --global user.email "martincordich@gmail.com"
+  git config --global user.name "MCordich"
+
+window.eliminarFunkoPop = function(boton){
+    console.log(boton.id);
+    Swal.fire({
+        title: '¿Esta seguro de eliminar el FunkoPop?',
+        text: "No puedes volver atras despues de este paso",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          //aqui agregar el codigo para eliminar el funkopop
+          let funkopopFiltrados = listaFunkopop.filter(function(producto){
+            return producto.codigo != boton.id
+          })
+          
+          console.log(funkopopFiltrados);
+          
+            Swal.fire(
+            'Eliminado!',
+            'El FunkoPop fue eliminado!',
+            'success'
+          )
+        }
+      })
 }
